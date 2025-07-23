@@ -8,24 +8,27 @@ workflows:
         - expo_credentials
         - mobile_env
       node: "18"
+      # CI=1 is already set by Codemagic, no need to add it manually
 
     scripts:
       - name: Install dependencies
-        # no cd; install right here at root
         script: |
           npm ci --legacy-peer-deps
           npm install -g eas-cli
 
       - name: Expo prebuild
         script: |
-          npx expo prebuild --clean --no-install --non-interactive
+          # CI=1 is detected automatically
+          npx expo prebuild --clean --no-install
 
       - name: EAS build for iOS
         script: |
-          eas build -p ios --profile production --non-interactive
+          # no non-interactive flag needed
+          eas build -p ios --profile production
 
     artifacts:
       - $HOME/build/ios/*.ipa
+
 
 
 
