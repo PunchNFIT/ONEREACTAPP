@@ -9,25 +9,26 @@ workflows:
       node: 18
     scripts:
       - name: Install dependencies
-        working_directory: native_output
+        directory: native_output
         script: |
-          # first do a clean install (with legacy-peer-deps to avoid ERESOLVE)
+          # clean‐install with legacy peer‐deps flag to avoid conflicts
           npm ci --legacy-peer-deps
-          # make the global Expo CLI available
+          # make the global Expo/EAS CLI available
           npm install -g expo-cli eas-cli
 
       - name: Expo prebuild
-        working_directory: native_output
+        directory: native_output
         script: |
-          # run prebuild but skip its built-in install step
-          expo prebuild --clean --no-install
+          # run prebuild but skip its built-in install
+          npx expo prebuild --clean --no-install --non-interactive
 
       - name: EAS build for iOS
-        working_directory: native_output
+        directory: native_output
         script: |
           eas build -p ios --non-interactive --profile production
 
     artifacts:
       - $HOME/build/ios/*.ipa
+
 
 
