@@ -13,7 +13,7 @@ workflows:
           # first do a clean install (with legacy-peer-deps to avoid ERESOLVE)
           npm ci --legacy-peer-deps
           # make the global Expo CLI available
-          npm install -g expo-cli
+          npm install -g expo-cli sharp-cli
 
       - name: Expo prebuild
         script: |
