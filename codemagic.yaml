@@ -3,21 +3,21 @@ workflows:
     name: Expo iOS Build
     max_build_duration: 60
     environment:
-      node: 18
-      # Import your two groups of secrets
       groups:
-        - expo_credentials   # contains EXPO_USERNAME, EXPO_PASSWORD
-        - mobile_env         # contains OPENAI_API_KEY, SESSION_SECRET, API_BASE_URL
+        - expo_credentials
+        - mobile_env
+      node: 18
     scripts:
       - name: Install dependencies
         script: |
-          npm ci
+          npm ci --legacy-peer-deps
+          npm install -g expo-cli
       - name: Expo prebuild
         script: |
-          npx expo prebuild --clean
-      - name: Expo build iOS
+          expo prebuild --clean
+      - name: Expo build
         script: |
-          npx expo build:ios --non-interactive --no-wait
+          expo build:ios --non-interactive
     artifacts:
       - $HOME/build/ios/*.ipa
 
