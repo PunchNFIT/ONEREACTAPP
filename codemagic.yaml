@@ -10,14 +10,21 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
+          # first do a clean install (with legacy-peer-deps to avoid ERESOLVE)
           npm ci --legacy-peer-deps
+          # make the global Expo CLI available
           npm install -g expo-cli
+
       - name: Expo prebuild
         script: |
-          expo prebuild --clean
+          # run prebuild but skip its built-in install step
+          expo prebuild --clean --no-install
+
       - name: Expo build
         script: |
           expo build:ios --non-interactive
+
     artifacts:
       - $HOME/build/ios/*.ipa
+
 
