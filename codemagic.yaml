@@ -19,9 +19,9 @@ workflows:
         script: |
           npx expo prebuild --clean --no-install
 
-      - name: Debug EAS_TOKEN
+      - name: Debug EXPO_TOKEN
         script: |
-          echo "EAS_TOKEN length: $(echo -n $EAS_TOKEN | wc -c)"
+          echo "EXPO_TOKEN length: $(echo -n $EXPO_TOKEN | wc -c)"
 
       - name: EAS build for iOS
         script: |
