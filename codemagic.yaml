@@ -1,14 +1,6 @@
 workflows:
   expo_ios:
-    name: Expo iOS Build
-    max_build_duration: 60
-
-    environment:
-      groups:
-        - expo_credentials
-        - mobile_env
-      node: "18"
-      # CI=1 is already set by Codemagic, no need to add it manually
+    # … your existing config …
 
     scripts:
       - name: Install dependencies
@@ -18,13 +10,16 @@ workflows:
 
       - name: Expo prebuild
         script: |
-          # CI=1 is detected automatically
           npx expo prebuild --clean --no-install
+
+      - name: Login to EAS
+        script: |
+          # non-interactive login with username & password
+          eas login --username "$EXPO_USERNAME" --password "$EXPO_PASSWORD" --non-interactive
 
       - name: EAS build for iOS
         script: |
-          # no non-interactive flag needed
-          eas build -p ios --profile production
+          eas build -p ios --profile production --non-interactive
 
     artifacts:
       - $HOME/build/ios/*.ipa
