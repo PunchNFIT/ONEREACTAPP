@@ -2,30 +2,29 @@ workflows:
   expo_ios:
     name: Expo iOS Build
     max_build_duration: 60
+
     environment:
       groups:
         - expo_credentials
         - mobile_env
-      node: 18
+      node: "18"
+
     scripts:
       - name: Install dependencies
-        directory: native_output
         script: |
-          # clean‐install with legacy peer‐deps flag to avoid conflicts
+          cd native_output
           npm ci --legacy-peer-deps
-          # make the global Expo/EAS CLI available
           npm install -g expo-cli eas-cli
 
       - name: Expo prebuild
-        directory: native_output
         script: |
-          # run prebuild but skip its built-in install
+          cd native_output
           npx expo prebuild --clean --no-install --non-interactive
 
       - name: EAS build for iOS
-        directory: native_output
         script: |
-          eas build -p ios --non-interactive --profile production
+          cd native_output
+          eas build -p ios --profile production --non-interactive
 
     artifacts:
       - $HOME/build/ios/*.ipa
