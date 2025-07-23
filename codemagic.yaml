@@ -20,9 +20,9 @@ workflows:
           # run prebuild but skip its built-in install step
           expo prebuild --clean --no-install
 
-      - name: Expo build
+      - name: EAS build for iOS
         script: |
-          expo build:ios --non-interactive
+          eas build -p ios --non-interactive --profile production
 
     artifacts:
       - $HOME/build/ios/*.ipa
