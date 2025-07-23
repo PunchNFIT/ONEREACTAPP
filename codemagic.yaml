@@ -1,9 +1,12 @@
 workflows:
   expo_ios:
     name: Expo iOS Build
+    max_build_duration: 60
+
     environment:
       groups:
-        - expo_credentials   # <-- must include the group that has EAS_TOKEN
+        - expo_credentials
+        - mobile_env
       node: "18"
 
     scripts:
@@ -16,9 +19,12 @@ workflows:
         script: |
           npx expo prebuild --clean --no-install
 
+      - name: Debug EAS_TOKEN
+        script: |
+          echo "EAS_TOKEN length: $(echo -n $EAS_TOKEN | wc -c)"
+
       - name: EAS build for iOS
         script: |
-          # EAS_TOKEN is automatically picked up; no login step needed
           eas build -p ios --profile production
 
     artifacts:
