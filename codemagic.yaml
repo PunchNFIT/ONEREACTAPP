@@ -17,7 +17,6 @@ workflows:
 
       - name: Expo prebuild
         script: |
-          # This will generate eas.json with your extra.eas.projectId
           npx expo prebuild --clean --no-install
 
       - name: Debug EAS_TOKEN
@@ -26,14 +25,21 @@ workflows:
 
       - name: EAS build for iOS
         script: |
-          # On CI, EAS will automatically use $EAS_TOKEN for auth.
           eas build \
             --platform ios \
             --profile production \
             --non-interactive
 
+    code_signing:
+      ios:
+        certificates:
+          - reference: one-mobile-native       # exactly your .p12 reference
+        provisioning_profile:
+          - reference: one-mobile-native       # exactly your .mobileprovision reference
+
     artifacts:
       - $HOME/build/ios/*.ipa
+
 
 
 
