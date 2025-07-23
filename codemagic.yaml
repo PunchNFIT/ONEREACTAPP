@@ -1,6 +1,10 @@
 workflows:
   expo_ios:
-    # … your existing config …
+    name: Expo iOS Build
+    environment:
+      groups:
+        - expo_credentials   # <-- must include the group that has EAS_TOKEN
+      node: "18"
 
     scripts:
       - name: Install dependencies
@@ -12,17 +16,14 @@ workflows:
         script: |
           npx expo prebuild --clean --no-install
 
-      - name: Login to EAS
-        script: |
-          # non-interactive login with username & password
-          eas login --username "$EXPO_USERNAME" --password "$EXPO_PASSWORD" --non-interactive
-
       - name: EAS build for iOS
         script: |
-          eas build -p ios --profile production --non-interactive
+          # EAS_TOKEN is automatically picked up; no login step needed
+          eas build -p ios --profile production
 
     artifacts:
       - $HOME/build/ios/*.ipa
+
 
 
 
