@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "ONE",
+    "slug": "one_mobile_native",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.threesixsixdegreefitechandsciinstitute.oneagent"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.threesixsixdegreefitechandsciinstitute.oneagent"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "61393954-I453-4531-945e-35b6d0444494"
+      },
+      "API_BASE_URL": "https://ca3549b3-8fd1-445c-86af-8a5ee49eecb1-00-2crz6zepusv09.janeway.replit.dev"
+    }
+  }
+}
