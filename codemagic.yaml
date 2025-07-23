@@ -5,10 +5,9 @@ workflows:
 
     environment:
       groups:
-        - expo_credentials
+        - expo_credentials    # contains EAS_TOKEN
+        - expo_project_id     # contains EXPO_PROJECT_ID
         - mobile_env
-        - expo_project_id
-      node: "18"
 
     scripts:
       - name: Install dependencies
@@ -18,19 +17,23 @@ workflows:
 
       - name: Expo prebuild
         script: |
+          # This will generate eas.json with your extra.eas.projectId
           npx expo prebuild --clean --no-install
+
+      - name: Debug EAS_TOKEN
+        script: |
+          echo "EAS_TOKEN length: $(echo -n $EAS_TOKEN | wc -c)"
 
       - name: EAS build for iOS
         script: |
+          # On CI, EAS will automatically use $EAS_TOKEN for auth.
           eas build \
-            -p ios \
+            --platform ios \
             --profile production \
-            --non-interactive \
-            --project-id "$EXPO_PROJECT_ID"
+            --non-interactive
 
     artifacts:
       - $HOME/build/ios/*.ipa
-
 
 
 
