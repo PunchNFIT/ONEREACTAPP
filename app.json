@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ONE",
-    "slug": "one_mobile_native",
+    "slug": "one-mobile-native",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
