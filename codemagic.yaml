@@ -5,8 +5,8 @@ workflows:
 
     environment:
       groups:
-        - expo_credentials    # contains EAS_TOKEN
-        - expo_project_id     # contains EXPO_PROJECT_ID
+        - expo_credentials    # contains $EAS_TOKEN
+        - expo_project_id     # contains $EXPO_PROJECT_ID
         - mobile_env
 
     scripts:
@@ -30,17 +30,8 @@ workflows:
             --profile production \
             --non-interactive
 
-    code_signing:
-      ios:
-        certificates:
-          - reference: one-mobile-native       # exactly your .p12 reference
-        provisioning_profile:
-          - reference: one-mobile-native       # exactly your .mobileprovision reference
-
     artifacts:
       - $HOME/build/ios/*.ipa
-
-
 
 
 
