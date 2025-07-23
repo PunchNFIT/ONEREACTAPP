@@ -11,23 +11,22 @@ workflows:
 
     scripts:
       - name: Install dependencies
+        # no cd; install right here at root
         script: |
-          cd native_output
           npm ci --legacy-peer-deps
-          npm install -g expo-cli eas-cli
+          npm install -g eas-cli
 
       - name: Expo prebuild
         script: |
-          cd native_output
           npx expo prebuild --clean --no-install --non-interactive
 
       - name: EAS build for iOS
         script: |
-          cd native_output
           eas build -p ios --profile production --non-interactive
 
     artifacts:
       - $HOME/build/ios/*.ipa
+
 
 
 
