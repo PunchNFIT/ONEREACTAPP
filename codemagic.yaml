@@ -11,9 +11,9 @@ workflows:
 
       ios_signing:
         certificates:
-          - reference: "one-mobile-native"
+          - "one-mobile-native"
         provisioning_profiles:
-          - reference: "one-mobile-native"
+          - "one-mobile-native"
 
     scripts:
       - name: Install dependencies
