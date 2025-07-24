@@ -4,16 +4,17 @@ workflows:
     max_build_duration: 60
 
     environment:
-      # bring in your secrets:
       groups:
-        - expo_credentials    # contains $EAS_TOKEN
-        - expo_project_id     # contains $EXPO_PROJECT_ID
+        - expo_credentials    # exposes $EAS_TOKEN
+        - expo_project_id     # exposes $EXPO_PROJECT_ID (for expo prebuild)
         - mobile_env
 
-      # use the App Store distribution type and your explicit bundle identifier…
       ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.threesixsixdegreefitechandsciinstitute.one
+        # fetch the exact P12 and provisioning profile you uploaded
+        certificates:
+          - reference: one-mobile-native
+        provisioning_profiles:
+          - reference: one-mobile-native
 
     scripts:
       - name: Install dependencies
@@ -23,8 +24,13 @@ workflows:
 
       - name: Expo prebuild
         script: |
-          # will pick up extra.eas.projectId from app.json
+          # will use the expo.projectId from app.json["extra"]["eas"]
           npx expo prebuild --clean --no-install
+
+      - name: Set up code signing in Xcode project
+        script: |
+          # this reads your fetched profiles + certs and updates the generated Xcode project
+          xcode-project use-profiles
 
       - name: Debug EAS_TOKEN
         script: |
@@ -32,7 +38,7 @@ workflows:
 
       - name: EAS build for iOS
         script: |
-          # Codemagic/EAS will auto-auth with $EAS_TOKEN
+          # CI-auth will pick up the $EAS_TOKEN automatically
           eas build \
             --platform ios \
             --profile production \
@@ -40,7 +46,6 @@ workflows:
 
     artifacts:
       - $HOME/build/ios/*.ipa
-
 
 
 
